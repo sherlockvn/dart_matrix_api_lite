@@ -318,12 +318,9 @@ class TimelineUpdate {
   List<MatrixEvent>? events;
   bool? limited;
   String? prevBatch;
+  String? nextBatch;
 
-  TimelineUpdate({
-    this.events,
-    this.limited,
-    this.prevBatch,
-  });
+  TimelineUpdate({this.events, this.limited, this.prevBatch, this.nextBatch});
 
   TimelineUpdate.fromJson(Map<String, dynamic> json) {
     events = json['events'] != null
@@ -331,6 +328,7 @@ class TimelineUpdate {
         : null;
     limited = json['limited'];
     prevBatch = json['prev_batch'];
+    nextBatch = json['next_batch'];
   }
 
   Map<String, dynamic> toJson() {
@@ -343,6 +341,9 @@ class TimelineUpdate {
     }
     if (prevBatch != null) {
       data['prev_batch'] = prevBatch;
+    }
+    if (nextBatch != null) {
+      data['next_batch'] = nextBatch;
     }
     return data;
   }
