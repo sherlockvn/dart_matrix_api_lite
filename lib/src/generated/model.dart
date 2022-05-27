@@ -169,9 +169,10 @@ class SpaceRoomsChunkBase {
 
   SpaceRoomsChunkBase.fromJson(Map<String, dynamic> json)
       : childrenState = (json['children_state'] as List)
-            .map((v) => MatrixEvent.fromJson(v))
+            .map((v) => MatrixEvent.fromJson((v as Map<String, dynamic>)
+              ..putIfAbsent('event_id', () => 'invalid')))
             .toList(),
-        roomType = json['room_type'] as String;
+        roomType = json['room_type'] as String?;
   Map<String, dynamic> toJson() => {
         'children_state': childrenState.map((v) => v.toJson()).toList(),
         'room_type': roomType,
@@ -184,7 +185,7 @@ class SpaceRoomsChunkBase {
   List<MatrixEvent> childrenState;
 
   /// The `type` of room (from [`m.room.create`](https://spec.matrix.org/unstable/client-server-api/#mroomcreate)), if any.
-  String roomType;
+  String? roomType;
 }
 
 @_NameSource('rule override generated')
@@ -216,9 +217,10 @@ class SpaceRoomsChunk implements PublicRoomsChunk, SpaceRoomsChunkBase {
         topic = ((v) => v != null ? v as String : null)(json['topic']),
         worldReadable = json['world_readable'] as bool,
         childrenState = (json['children_state'] as List)
-            .map((v) => MatrixEvent.fromJson(v))
+            .map((v) => MatrixEvent.fromJson((v as Map<String, dynamic>)
+              ..putIfAbsent('event_id', () => 'invalid')))
             .toList(),
-        roomType = json['room_type'] as String;
+        roomType = json['room_type'] as String?;
   Map<String, dynamic> toJson() {
     final avatarUrl = this.avatarUrl;
     final canonicalAlias = this.canonicalAlias;
@@ -277,7 +279,7 @@ class SpaceRoomsChunk implements PublicRoomsChunk, SpaceRoomsChunkBase {
   List<MatrixEvent> childrenState;
 
   /// The `type` of room (from [`m.room.create`](https://spec.matrix.org/unstable/client-server-api/#mroomcreate)), if any.
-  String roomType;
+  String? roomType;
 }
 
 @_NameSource('generated')

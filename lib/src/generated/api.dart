@@ -98,10 +98,7 @@ class Api {
   /// [from] A pagination token from a previous result. If specified, `max_depth` and `suggested_only` cannot
   /// be changed from the first request.
   Future<GetSpaceHierarchyResponse> getSpaceHierarchy(String roomId,
-      {bool? suggestedOnly,
-      double? limit,
-      double? maxDepth,
-      String? from}) async {
+      {bool? suggestedOnly, int? limit, int? maxDepth, String? from}) async {
     final requestUri = Uri(
         path:
             '_matrix/client/v1/rooms/${Uri.encodeComponent(roomId)}/hierarchy',
