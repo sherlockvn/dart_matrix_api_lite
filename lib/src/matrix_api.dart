@@ -147,7 +147,7 @@ class MatrixApi extends Api {
   }
 
   /// Publishes end-to-end encryption keys for the device.
-  /// https://matrix.org/docs/spec/client_server/r0.6.1#post-matrix-client-r0-keys-query
+  /// https://spec.matrix.org/v1.3/client-server-api/#post_matrixclientv3keysupload
   Future<Map<String, int>> uploadKeys(
       {MatrixDeviceKeys? deviceKeys,
       Map<String, dynamic>? oneTimeKeys,

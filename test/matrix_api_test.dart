@@ -1887,5 +1887,27 @@ void main() {
           ).toJson(),
           json);
     });
+
+    test('dehydratedDevices', () async {
+      matrixApi.homeserver = Uri.parse('https://fakeserver.notexisting');
+      matrixApi.accessToken = '1234';
+
+      final ret = await matrixApi.uploadDehydratedDevice(
+          initialDeviceDisplayName: 'DehydratedDevice',
+          deviceData: {'algorithm': 'some.famedly.proprietary.algorith'});
+      expect(
+          FakeMatrixApi.calledEndpoints
+              .containsKey('/unstable/org.matrix.msc3814.v1/dehydrated_device'),
+          true);
+      expect(ret.isNotEmpty, true);
+      final device = await matrixApi.getDehydratedDevice();
+      expect(device.deviceId, 'DEHYDDEV');
+      expect(device.deviceData?['algorithm'],
+          'some.famedly.proprietary.algorithm');
+
+      final events = await matrixApi.getDehydratedDeviceEvents(device.deviceId);
+      expect(events.events?.length, 1);
+      expect(events.nextBatch, 'd1');
+    });
   });
 }
