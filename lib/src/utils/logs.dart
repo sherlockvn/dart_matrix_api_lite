@@ -21,6 +21,8 @@
 * SOFTWARE.
 */
 
+import 'dart:async';
+
 import 'print_logs_native.dart' if (dart.library.html) 'print_logs_web.dart';
 
 enum Level {
@@ -37,7 +39,7 @@ class Logs {
 
   /// Override this function if you want to convert a stacktrace for some reason
   /// for example to apply a source map in the browser.
-  static StackTrace? Function(StackTrace?) stackTraceConverter = (s) => s;
+  static FutureOr<StackTrace> Function(StackTrace)? stackTraceConverter;
 
   factory Logs() {
     return _singleton;
@@ -50,7 +52,16 @@ class Logs {
 
   Logs._internal();
 
-  void addLogEvent(LogEvent logEvent) {
+  void addLogEvent(LogEvent logEvent) async {
+    final stackTrace = logEvent.stackTrace;
+    final stackTraceConverter = Logs.stackTraceConverter;
+    if (stackTrace != null && stackTraceConverter != null) {
+      logEvent = LogEvent(
+        logEvent.title,
+        exception: logEvent.exception,
+        stackTrace: await stackTraceConverter(stackTrace),
+      );
+    }
     outputEvents.add(logEvent);
     if (logEvent.level.index <= level.index) {
       logEvent.printOut();
@@ -62,7 +73,7 @@ class Logs {
         LogEvent(
           title,
           exception: exception,
-          stackTrace: stackTraceConverter(stackTrace),
+          stackTrace: stackTrace,
           level: Level.wtf,
         ),
       );
@@ -72,7 +83,7 @@ class Logs {
         LogEvent(
           title,
           exception: exception,
-          stackTrace: stackTraceConverter(stackTrace),
+          stackTrace: stackTrace,
           level: Level.error,
         ),
       );
@@ -82,7 +93,7 @@ class Logs {
         LogEvent(
           title,
           exception: exception,
-          stackTrace: stackTraceConverter(stackTrace),
+          stackTrace: stackTrace,
           level: Level.warning,
         ),
       );
@@ -92,7 +103,7 @@ class Logs {
         LogEvent(
           title,
           exception: exception,
-          stackTrace: stackTraceConverter(stackTrace),
+          stackTrace: stackTrace,
           level: Level.info,
         ),
       );
@@ -102,7 +113,7 @@ class Logs {
         LogEvent(
           title,
           exception: exception,
-          stackTrace: stackTraceConverter(stackTrace),
+          stackTrace: stackTrace,
           level: Level.debug,
         ),
       );
@@ -112,7 +123,7 @@ class Logs {
         LogEvent(
           title,
           exception: exception,
-          stackTrace: stackTraceConverter(stackTrace),
+          stackTrace: stackTrace,
           level: Level.verbose,
         ),
       );
