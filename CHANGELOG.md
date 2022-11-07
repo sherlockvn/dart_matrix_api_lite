@@ -1,3 +1,6 @@
+## [1.1.10] - 7th Nov 2022
+- chore: Make stacktrace converter async
+
 ## [1.1.9] - 7th Nov 2022
 - feat: Allow converting of stacktraces in logs
 
