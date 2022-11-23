@@ -21,6 +21,11 @@ class Api {
   Api({Client? httpClient, this.baseUri, this.bearerToken})
       : httpClient = httpClient ?? Client();
   Never unexpectedResponse(BaseResponse response, Uint8List body) {
+    print(response);
+    print(response.statusCode);
+    print(response.headers);
+    print(response.request);
+    print(response.request);
     throw Exception('http error response');
   }
 
