@@ -1,3 +1,6 @@
+## [1.7.4] - 9th Jan 2023
+Mention new package in Readme.
+
 ## [1.7.3] - 9th Jan 2023
 Mark package as discontinued.
 
