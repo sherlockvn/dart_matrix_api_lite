@@ -1,6 +1,10 @@
+import 'package:logger/logger.dart' hide LogEvent,Level;
 import 'package:matrix_api_lite/matrix_api_lite.dart';
 
 extension PrintLogs on LogEvent {
+  static final logger = Logger(
+    printer: PrettyPrinter(), // Use the PrettyPrinter to format and print log
+  );
   void printOut() {
     var logsStr = title;
     if (exception != null) {
@@ -31,6 +35,6 @@ extension PrintLogs on LogEvent {
       }
     }
     // ignore: avoid_print
-    print('[Matrix] $logsStr');
+    logger.i('[Matrix] $logsStr');
   }
 }
