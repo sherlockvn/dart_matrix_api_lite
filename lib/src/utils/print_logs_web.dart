@@ -1,8 +1,11 @@
-import 'dart:html';
-
+import 'package:logger/web.dart' hide LogEvent,Level;
 import 'package:matrix_api_lite/matrix_api_lite.dart';
 
 extension PrintLogs on LogEvent {
+  static final logger = Logger(
+    printer: PrettyPrinter(), // Use the PrettyPrinter to format and print log
+  );
+
   void printOut() {
     var logsStr = '[Matrix] $title';
     if (exception != null) {
@@ -13,22 +16,22 @@ extension PrintLogs on LogEvent {
     }
     switch (level) {
       case Level.wtf:
-        window.console.error('!!!CRITICAL!!! $logsStr');
+        logger.w('!!!CRITICAL!!! $logsStr');
         break;
       case Level.error:
-        window.console.error(logsStr);
+        logger.e(logsStr);
         break;
       case Level.warning:
-        window.console.warn(logsStr);
+        logger.w(logsStr);
         break;
       case Level.info:
-        window.console.info(logsStr);
+        logger.i(logsStr);
         break;
       case Level.debug:
-        window.console.debug(logsStr);
+        logger.d(logsStr);
         break;
       case Level.verbose:
-        window.console.log(logsStr);
+        logger.i(logsStr);
         break;
     }
   }
